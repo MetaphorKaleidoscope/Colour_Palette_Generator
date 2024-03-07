@@ -1,0 +1,40 @@
+{% include "header.html" %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background: #241468">
+    <div class="overlay"></div>
+          <div class="site-heading">
+          </div>
+  </header>
+
+  <!-- Main Content -->
+
+<div class="demo-title">
+    {% if demo: %}
+    <h1>Demo</h1>
+    {% else: %}
+    <h1>Colour Palette</h1>
+    {% endif %}
+    <p class="demo-img_url">
+        <img src="{{ image_name }}" style="float:center;width: 800px;height:600px;padding: 15px">
+    </p>
+<div>
+    <table>
+  <tr>
+    <th>Colors</th>
+    <th>Hex code</th>
+    <th>Percentage</th>
+  </tr>
+   {% for each in range(no_colors): %}
+        <tr>
+            <td bgcolor=" {{ colors_extract.hex_code.iloc[each] }}"></td>
+            <td>{{ colors_extract.hex_code.iloc[each] }}</td>
+            <td>{{ '%0.4f' | format(colors_extract.percentage.iloc[each])}}</td>
+        </tr>
+   {% endfor %}
+</table>
+
+</div>
+</div>
+
+{% include "footer.html" %}
