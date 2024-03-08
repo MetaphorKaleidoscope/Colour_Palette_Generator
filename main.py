@@ -16,7 +16,8 @@ from colour_palette_generator import colour_palette
 FILE_NAME = 'static/img/Hydrangeas.jpg'
 PATH = "static/img/example.jpg"
 no_colors_demo = 10
-more_repeat_demo = colour_palette(FILE_NAME, no_colors_demo)
+version = 'alpha'
+more_repeat_demo = colour_palette(FILE_NAME, no_colors_demo, version)
 
 
 app = Flask(__name__)
@@ -44,7 +45,8 @@ def tools():
             image = image.convert('RGB')
         image.save(PATH)
         colors = int(request.form.get('no_colors'))
-        more_repeat = colour_palette(file_name, colors)
+        version = request.form.get('version')
+        more_repeat = colour_palette(file_name, colors, version)
         return render_template("index.html", image_name=PATH, colors_extract=more_repeat, no_colors=colors, demo=False)
     return render_template("tools.html", form=form)
 

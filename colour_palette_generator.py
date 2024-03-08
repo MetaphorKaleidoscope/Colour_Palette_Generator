@@ -8,7 +8,7 @@ from PIL import Image
 import pandas as pd
 
 
-def colour_palette(file_name, no_colors):
+def colour_palette(file_name, no_colors, version):
     my_array = np.array(Image.open(file_name))
     size = my_array.shape
     array_rgb = reshape(my_array, (size[0]*size[1], size[2]))
@@ -24,8 +24,11 @@ def colour_palette(file_name, no_colors):
     df['hex_code'] = '#' + df['r'].apply(lambda x: f'{x:02x}') + df['g'].apply(lambda x: f'{x:02x}') \
                      + df['b'].apply(lambda x: f'{x:02x}')
     df['times'] = 1
-
-    repeat_total = df.groupby(df.hex_code.str[0:2], sort=False).agg({'times': 'sum', 'hex_code': 'first'}).\
+    if version == 'alpha':
+        letter = 'first'
+    else:
+        letter = 'last'
+    repeat_total = df.groupby(df.hex_code.str[0:2], sort=False).agg({'times': 'sum', 'hex_code': letter}).\
         sort_values('times', ascending=False)
     total = len(df)
     repeat_total['percentage'] = repeat_total['times']/total
